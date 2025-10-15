@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Meteorológico</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Hora en la esquina superior derecha -->
+    <div id="reloj" class="reloj-esquina"></div>
+
+    <!-- Contenedor principal -->
+    <div class="container">
+        <h1>📊 Panel Meteorológico</h1>
+
+        {% if falta_la_carolina %}
+        <div class="alerta-global">
+            ⚠️ <strong>Ema La Carolina</strong> no transmite por falta de conexión celular
+        </div>
+        {% endif %}
+
+        <div class="estaciones">
+            {% for r in resultados %}
+            <div class="card">
+                <h2>{{ r.nombre }}</h2>
+                <p>🌡️ Temp: {{ r.temperatura }} °C</p>
+                <p>📈 Presión: {{ r.presion }} hPa</p>
+                <p>💧 Humedad: {{ r.humedad }} %</p>
+                <p>🌬️ Viento: {{ r.velocidad }} m/s - {{ r.direccion }}°</p>
+                <p>🔋 Voltaje: {{ r.bateria }} V</p>
+                <p>{{ r.estado }}</p>
+                {% if r.alertas %}
+                <div class="alertas">
+                    {% for alerta in r.alertas %}
+                    <p class="alerta">{{ alerta }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Script de reloj en tiempo real -->
+    <script>
+    function actualizarHora() {
+        const ahora = new Date();
+        const hora = ahora.toLocaleTimeString('es-UY', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        document.getElementById('reloj').textContent = "🕒 " + hora;
+    }
+    setInterval(actualizarHora, 1000);
+    actualizarHora();
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Subir archivos meteorológicos</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Logo en la esquina -->
+    <div class="logo-inumet">
+        <img src="/static/logo-inumet.png" alt="Logo Inumet">
+    </div>
+
+    <!-- Contenedor principal -->
+    <div class="container">
+        <h1>🌤️ Visualizador Ftp</h1>
+
+        <!-- Fecha y hora -->
+        <div class="fecha-hora">
+            <p id="fecha"></p>
+            <p id="hora"></p>
+        </div>
+
+        <!-- Formulario de carga -->
+        <form action="/dashboard" method="post" enctype="multipart/form-data">
+            <input type="file" name="archivos" multiple required>
+            <button type="submit">📤 Analizar archivos</button>
+        </form>
+    </div>
+
+    <!-- Script de fecha y hora -->
+    <script>
+    function actualizarFechaHora() {
+        const ahora = new Date();
+        const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const opcionesHora = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        document.getElementById('fecha').textContent = ahora.toLocaleDateString('es-UY', opcionesFecha);
+        document.getElementById('hora').textContent = "🕒 " + ahora.toLocaleTimeString('es-UY', opcionesHora);
+    }
+    setInterval(actualizarFechaHora, 1000);
+    actualizarFechaHora();
+    </script>
+</body>
+</html>
